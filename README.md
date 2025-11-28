@@ -31,8 +31,6 @@ Note: The utility keeps all processing in memory (no server‑side storage of pa
 - Security notes
 - Troubleshooting
 - Testing tips
-- Future enhancements
-- License
 
 ---
 
@@ -51,8 +49,9 @@ Install modules (recommended: cpanm):
 ```bash
 cpanm CryptX Crypt::Argon2 Digest::CRC CGI MIME::Base64
 ```
+---
 
-Installation
+## Installation
 
     Place the script
     Copy steg_tools.pl into your CGI directory, e.g. /var/www/cgi-bin/ or .../public_html/cgi-bin/.
@@ -67,7 +66,10 @@ chmod 755 /path/to/cgi-bin/steg_tools.pl
     Optional: landing page
     If you serve /cgi-bin/ as a browsable directory, add an index.html linking to steg_tools.pl and other tools.
 
-Web server configuration
+---
+
+## Web server configuration
+
 Apache (CGI)
 
 Enable CGI for the directory and allow .pl scripts to execute:
@@ -110,7 +112,9 @@ Also set:
 
 client_max_body_size 10m;
 
-Configuration knobs (inside the script)
+---
+
+## Configuration knobs (inside the script)
 
     Max upload size:
         our $MAX_UPLOAD = 10 * 1024 * 1024; # bytes
@@ -124,7 +128,11 @@ Configuration knobs (inside the script)
         “Download plaintext as file” is checked by default in the HTML form
 
 All binary handling is forced to octets to avoid Unicode pitfalls—keep that behavior intact.
-Usage
+
+---
+
+## Usage
+
 Browser UI
 
     Visit /cgi-bin/steg_tools.pl
@@ -148,7 +156,7 @@ curl -sS -X POST https://your.host/cgi-bin/steg_tools.pl \
   -F action=embed \
   -F passphrase='correct horse battery staple' \
   -F context='proj=apollo|duck.png' \
-  -F secret='Hello SPL v1 via curl' \
+  -F secret='Hello  via curl' \
   -F png_file=@carrier.png \
   -o carrier_with_stEg.png \
   -D /dev/stderr
@@ -208,7 +216,9 @@ Responses:
     200 OK on success (image/png, application/octet-stream, or text/html)
     400 Bad Request with an HTML error page on validation/crypto failures
 
-SPL v1 payload format (implemented here)
+---
+
+## SPL v1 payload format (implemented here)
 
 Binary layout (little‑endian for numeric fields):
 
@@ -237,7 +247,9 @@ PNG chunk:
     Data: 1‑byte frame version (1), followed by the SPL payload
     Note: Some pipelines strip unknown chunks; keep a gold‑master if needed.
 
-Security notes
+---
+
+## Security notes
 
     The tool processes everything in memory and returns results immediately; it does not store payloads or passphrases server‑side.
     Always serve over HTTPS.
@@ -246,7 +258,9 @@ Security notes
     Context (AAD) is not secret and is stored in plaintext in the header (but cryptographically bound). Don’t put secrets there.
     Some apps “optimize” or re‑encode PNGs and will strip unknown chunks (including stEg).
 
-Troubleshooting
+---
+
+## Troubleshooting
 
     “Not a PNG (bad signature)”
     File isn’t a true PNG or got renamed.
@@ -262,7 +276,10 @@ Troubleshooting
 
 HTTP 500 errors:
 Check web server error logs. Confirm modules installed and script is executable (chmod 755).
-Testing tips
+
+---
+
+## Testing tips
 
     Quick round‑trip:
         Embed a short text secret into a small PNG

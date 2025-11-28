@@ -1,5 +1,7 @@
 # PNG Stego (SPL v1) — CGI Utility
 
+Email me clara@vejadu.xyz if you'e like a copy of the codebase.
+
 `steg_tools.pl` is a Perl CGI web utility for hiding and retrieving encrypted payloads inside PNG files using a custom ancillary chunk named `stEg`.
 
 - Encryption: Argon2id key derivation + AES‑256‑GCM (authenticated encryption)
